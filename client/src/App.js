@@ -39,17 +39,14 @@ class App extends Component {
           articles.push(article);
         })
         this.setState({articles: articles});
-        //console.log(this.state.articles);
       });
   }
 
   save = (event) => {
     const articleIndex = event.target.getAttribute("data-id");
     const article = this.state.articles[articleIndex];
-    //console.log(articleIndex, article);
     axios.post('api/saved', article)
       .then(response =>{
-        console.log(response);
         this.loadSavedArticles();
       });
   }
@@ -57,14 +54,20 @@ class App extends Component {
   loadSavedArticles = () => {
     axios.get('/api/saved')
       .then(response => {
-        console.log(response);
         const savedArticles = [];
         response.data.forEach((article) => {
           savedArticles.push(article);
         })
         this.setState({savedArticles: savedArticles});
-        console.log(this.state.savedArticles);
       });
+  }
+
+  deleteSavedArticle = (event) => {
+    const articleId = event.target.getAttribute("data-id");
+    axios.delete(`/api/saved/${articleId}`)
+      .then(response => {
+        this.loadSavedArticles();
+      })
   }
 
   componentDidMount() {
@@ -80,7 +83,7 @@ class App extends Component {
         </header>
         <Search change={this.inputChangeHandler} search={this.searchButtonHandler}/>
         <Articles articles={this.state.articles} save={this.save}/>
-        <Saved saved={this.state.savedArticles}/>
+        <Saved saved={this.state.savedArticles} deleteArticle={this.deleteSavedArticle}/>
       </div>
     );
   }

@@ -8,7 +8,7 @@ const Articles = (props) => {
       <div className="row article-row" key={index}>
         <h4 className="col-12 text-left">{article.headline}</h4>
         <p className="col-12 text-left">created on {article.date}</p>
-        <a href={article.url} target="blank" className="col-12 text-left"><p>{article.url}</p></a>
+        <a href={article.url} target="_blank" className="col-12 text-left"><p>{article.url}</p></a>
         <button className="btn btn-sm btn-info save-btn" data-id={index} onClick={props.save}>Save Article</button>
       </div>
     )
