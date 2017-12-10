@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Search from './components/Search/Search.js';
-import API from './util/API.js';
 import axios from 'axios';
 import Articles from './components/Articles/Articles.js';
+import Saved from './components/Saved/Saved.js';
 
 class App extends Component {
   state = {
     searchTerm: "",
     startDate: "",
     endDate: "",
-    articles: []
+    articles: [],
+    savedArticles: []
   }
 
   inputChangeHandler = (event) =>{
@@ -39,8 +39,36 @@ class App extends Component {
           articles.push(article);
         })
         this.setState({articles: articles});
-        console.log(this.state.articles);
+        //console.log(this.state.articles);
       });
+  }
+
+  save = (event) => {
+    const articleIndex = event.target.getAttribute("data-id");
+    const article = this.state.articles[articleIndex];
+    //console.log(articleIndex, article);
+    axios.post('api/saved', article)
+      .then(response =>{
+        console.log(response);
+        this.loadSavedArticles();
+      });
+  }
+
+  loadSavedArticles = () => {
+    axios.get('/api/saved')
+      .then(response => {
+        console.log(response);
+        const savedArticles = [];
+        response.data.forEach((article) => {
+          savedArticles.push(article);
+        })
+        this.setState({savedArticles: savedArticles});
+        console.log(this.state.savedArticles);
+      });
+  }
+
+  componentDidMount() {
+    this.loadSavedArticles();
   }
 
   render() {
@@ -51,7 +79,8 @@ class App extends Component {
           <h1>New York Times Search</h1>
         </header>
         <Search change={this.inputChangeHandler} search={this.searchButtonHandler}/>
-        <Articles articles={this.state.articles} />
+        <Articles articles={this.state.articles} save={this.save}/>
+        <Saved saved={this.state.savedArticles}/>
       </div>
     );
   }

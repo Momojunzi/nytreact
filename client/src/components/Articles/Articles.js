@@ -3,12 +3,13 @@ import './Articles.css';
 
 const Articles = (props) => {
   const articlesArr = props.articles;
-  const articles = articlesArr.map((article) => {
+  const articles = articlesArr.map((article, index) => {
     return(
-      <div className="row article-row">
+      <div className="row article-row" key={index}>
         <h4 className="col-12 text-left">{article.headline}</h4>
         <p className="col-12 text-left">created on {article.date}</p>
         <a href={article.url} target="blank" className="col-12 text-left"><p>{article.url}</p></a>
+        <button className="btn btn-sm btn-info save-btn" data-id={index} onClick={props.save}>Save Article</button>
       </div>
     )
   })
