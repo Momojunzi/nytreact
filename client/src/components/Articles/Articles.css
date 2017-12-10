@@ -1,0 +1,16 @@
+.articles-container {
+  margin-top: 30px;
+  border: solid black 1px;
+  padding-top: 20px;
+}
+
+.article-title {
+  border-bottom: solid grey 1px;
+  padding-bottom: 10px;
+}
+
+.article-row {
+  border-bottom: solid grey 1px;
+  margin-bottom: 10px;
+  
+}

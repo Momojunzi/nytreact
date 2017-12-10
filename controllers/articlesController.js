@@ -38,11 +38,11 @@ module.exports = {
     console.log(searchTerm, startDate, endDate);
     const key = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931"
     const searchString = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${key}&q=${searchTerm}&begin_date=${startDate}&end_date=${endDate}`;
-    request(searchString, function(err, response, html){
-      console.log(response);
-      res.json(response);
-    })
+    request
+      .get(searchString, (err, response, body)=>{
+        console.log(body);
+        res.json(body);
+      })
 
   }
-
 };
